@@ -18,7 +18,7 @@
 			flex-direction: row;
 			justify-content: space-around;
 			align-items: center;
-			background-color: #2C4;
+			background-color: #8D6;
 
 			image-rendering: crisp-edges;
 			image-rendering: pixelated;
@@ -55,7 +55,10 @@
 	<h1>pictSQUAREのアバターをプレビューするやつ</h1>
 	<div>
 		<h2>アバターのpngファイルを選択</h2>
-		<input type="file" id="InputFile" />
+		<div><input type="file" id="InputFile" /></div>
+
+		<h2>背景色</h2>
+		<input type="color" value="#88DD66" id="InputColor" />
 	</div>
 
 	<div>
@@ -92,6 +95,10 @@
 <script>
 	let inputFile = document.getElementById("InputFile");
 	let previews = document.querySelectorAll(".preview");
+
+	document.getElementById("InputColor").onchange = function(e) {
+		document.querySelectorAll('.preview-line').forEach(x => x.style.backgroundColor = e.target.value);
+	}
 
 	inputFile.onchange = function() {
 		if(inputFile.files && inputFile.files[0]) {
