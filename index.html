@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>pictSQUAREのアバターを確認するやつ</title>
+
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+	<style>
+		body {
+			padding: 1em;
+		}
+
+		.preview-line {
+			width: 160px;
+			height: 40px;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-around;
+			align-items: center;
+			background-color: #2C4;
+
+			image-rendering: crisp-edges;
+			image-rendering: pixelated;
+			transform-origin: 0 0;
+		}
+
+		.z2 {
+			transform: scale(2, 2);
+			margin-bottom: 40px;
+		}
+
+		.z4 {
+			transform: scale(4, 4);
+			margin-bottom: 120px;
+		}
+
+		.preview {
+			display: inline-block;
+			width: 32px;
+			height: 32px;
+			background-position: 0 0;
+
+			overflow: hidden;
+		}
+		.preview.left { background-position-y: -32px; }
+		.preview.right { background-position-y: -64px; }
+		.preview.back { background-position-y: -96px; }
+	</style>
+</head>
+
+<body>
+
+<main>
+	<h1>pictSQUAREのアバターをプレビューするやつ</h1>
+	<div>
+		<h2>アバターのpngファイルを選択</h2>
+		<input type="file" id="InputFile" />
+	</div>
+
+	<div>
+		<h2>x1</h2>
+		<div class="preview-line">
+			<div class="preview front"></div>
+			<div class="preview left"></div>
+			<div class="preview back"></div>
+			<div class="preview right"></div>
+		</div>
+	</div>
+
+	<div>
+		<h2>x2</h2>
+		<div class="preview-line z2">
+			<div class="preview front"></div>
+			<div class="preview left"></div>
+			<div class="preview back"></div>
+			<div class="preview right"></div>
+		</div>
+	</div>
+
+	<div>
+		<h2>x4</h2>
+		<div class="preview-line z4">
+			<div class="preview front"></div>
+			<div class="preview left"></div>
+			<div class="preview back"></div>
+			<div class="preview right"></div>
+		</div>
+	</div>
+</main>
+
+<script>
+	let inputFile = document.getElementById("InputFile");
+	let previews = document.querySelectorAll(".preview");
+
+	inputFile.onchange = function() {
+		if(inputFile.files && inputFile.files[0]) {
+			let reader = new FileReader();
+
+			reader.onload = function() {
+
+				for(let preview of previews) {
+					preview.style.backgroundImage = "url(" + reader.result + ")"
+				}
+
+				inputFile.value = "";
+			}
+
+			reader.readAsDataURL(inputFile.files[0])
+		}
+	};
+
+	let bpx_i = 0;
+	setInterval(function() {
+		for(let preview of previews) {
+			preview.style.backgroundPositionX = (-32 * Math.abs(bpx_i - 1)) + 'px';
+		}
+		bpx_i = (bpx_i + 1) % 4;
+	}, 80)
+</script>
+
+</body>
+</html>
